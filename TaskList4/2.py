@@ -45,35 +45,23 @@ tree = treeGen(4)
 print(tree)
 
 # -- DFS Generator --
-visited_dfs = []
-def dfs(visited, tree, node):
-    if node not in visited:
-        visited.append(node)
-        yield node
-        if tree[1] != None:
-            dfs(visited, tree[1], tree[1][0])
-        if tree[2] != None:
-            dfs(visited, tree[2], tree[2][0])
+def dfs(tree):
+    if tree is not None:
+        yield tree[0]
+        yield from dfs(tree[1])
+        yield from dfs(tree[2])
 
-dfs_gen = dfs(visited_dfs, tree, 1)
+dfs_gen = dfs(tree)
+print(f"DFS: {list(dfs_gen)}")
 
 # -- BFS --
-visited_bfs = []
-queue_bfs = []
-def bfs(visited, tree, node):
-  visited.append(node)
-  queue_bfs.append(tree)
+def bfs(tree):
+    que = [tree]
+    while len(que) > 0:
+        curr = que.pop(0)
+        if curr[1] is not None: que.append(curr[1])
+        if curr[2] is not None: que.append(curr[2])
+        yield curr[0]
 
-  while queue_bfs:
-    tree = queue_bfs.pop(0) 
-    if tree[1] != None:
-        if tree[1][0] not in visited:
-            visited.append(tree[1][0])
-            yield tree[1][0]
-            queue_bfs.append(tree[1])
-    if tree[2] != None:
-        if tree[2][0] not in visited:
-            visited.append(tree[2][0])
-            queue_bfs.append(tree[2])
-
-bfs_gen = bfs(visited_bfs, tree, 1)
+bfs_gen = bfs(tree)
+print(f"BFS: {list(bfs_gen)}")
