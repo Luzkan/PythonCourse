@@ -53,7 +53,5 @@ if __name__ == "__main__":
         print("Usage: 2.py [--encode / --decode] [input] [output]")
         exit(1)
 
-    with open(sys.argv[2], 'r') as f_in, open(sys.argv[3], 'w') as f_out:
-        for line in f_in:
-            line = line.rstrip('\n')
-            f_out.write(modes[sys.argv[1]](line)+'\n')
+    with open(sys.argv[2], "r") as f_in, open(sys.argv[3], "w") as f_out:
+        f_out.write(modes[sys.argv[1]](f_in.read()))
